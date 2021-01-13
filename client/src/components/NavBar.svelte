@@ -6,12 +6,12 @@
     export let url = ""
 </script>
 
-<div class="bg-blue-803 min-h-screen">
+
 <Router url="{url}" >
     <header class="flex flex-col">
         <div class=" h-12 flex text-white items-center px-4 justify-between mt-10">
           <div class="" >
-            <h1 class="font-semibold text-xl text-white">Puskesmas</h1>
+            <h1 class="font-semibold text-xl text-white">Queue Apps</h1>
           </div>
           <div class="flex flex-row ">
             <div class="mr-2">
@@ -24,11 +24,10 @@
               >
               <circle cx="12" cy="5" r="1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/><circle cx="12" cy="12" r="1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/><circle cx="12" cy="19" r="1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
               </svg>
-          </DropDown>
+            </DropDown>
           </div>
         </div>
     </header>
     <slot />
 </Router>
 
-</div>

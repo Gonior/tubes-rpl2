@@ -3,12 +3,11 @@
 	import {onMount} from 'svelte'
 	import NavBar from './components/NavBar.svelte'
 	import Home from './pages/Home.svelte'
-    import TempPage from './pages/TempPage.svelte';
-	
+	import Login from './pages/Login.svelte'
+	// import { showSplashScreen} from './store/store.js'
 	import SS from './components/SplashScreen.svelte'
-	
+	import Queue from './pages/Queue.svelte';
 	let showSplashScreen = true
-
 	onMount(() => {
 		setTimeout(() => {showSplashScreen = false}, 5000)
 	})
@@ -16,12 +15,13 @@
 {#if showSplashScreen}
 	<SS />
 {:else}
-<main>
+<main class="bg-blue-803 min-h-screen relative" >
 	<NavBar >
 		<Route path="/" component="{Home}" />
-		<Route path="/temp">
-			<TempPage /> 
+		<Route path="/login">
+			<Login /> 
 		</Route>
+		<Route path="/queue" component="{Queue}" />
 	</NavBar>
 </main>
 {/if}
