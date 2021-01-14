@@ -9,6 +9,9 @@ NIM | Name
 ## Requirement
 - Node js version 12 above
 - git CLI
+- CMD / POWERSHELL / TERMINAL
+
+Choose directory what you want example `D:/perkuliahan/` and type on CMD / Terminal code below :
 
 ```bash
 git clone https://github.com/Gonior/tubes-rpl2.git
