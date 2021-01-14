@@ -6,6 +6,10 @@ NIM | Name
 10118904 | Firman Alfinas
 10118910 | M. Syifa Amruloh
 
+## Requirement
+- Node js version 12 above
+- git CLI
+
 ```bash
 git clone https://github.com/Gonior/tubes-rpl2.git
 cd tubes-rpl2
@@ -25,4 +29,13 @@ cd client // to edit client
 
 ```bash
 npm i // yarn (if you using yarn)
+```
+## Test Drive
+
+```bash
+npm run dev
+```
+or 
+```bash
+yarn dev
 ```
