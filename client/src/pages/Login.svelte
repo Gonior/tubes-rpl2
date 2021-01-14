@@ -7,8 +7,8 @@
 <div
     in:fly={{x :300, duration:300}} 
     out:fly={{x : -300, duration:300}}
-    class="flex flex-col justify-between h-full bg-blue-803 absolute inset-0 z-10">
-    <div class="mt-40 ">
+    class="flex flex-col justify-between sm:px-32 md:px-48 lg:px-72 h-full bg-blue-803 absolute inset-0 z-10">
+    <div class="mt-20 ">
         <div class="px-3 mb-7">
             <h1 class="text-white text-3xl font-light">Sign In</h1>
             <h3 class="text-gray-300 text-xl mt-2">Wellcome Back!</h3>

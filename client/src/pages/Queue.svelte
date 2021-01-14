@@ -9,10 +9,10 @@
 <div
     in:fly={{x :300, duration:300}} 
     out:fly={{x : -300, duration:300}}
-    class="flex flex-col h-full bg-blue-803 absolute inset-0 z-10">
+    class="flex flex-col h-full bg-blue-803 absolute inset-0 z-10 sm:px-32 md:px-48 lg:px-72">
     <div class="mt-20">
         <div class=" h-12 flex text-white items-center px-4 justify-between mt-10">
-            <NavLink to="/">
+            <NavLink to="/detailPuskesmas">
                 <BackButton promp="Kembali"/>
             </NavLink>
             <div class="flex flex-row ">

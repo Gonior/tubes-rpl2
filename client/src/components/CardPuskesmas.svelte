@@ -14,7 +14,7 @@
     </div>
     
     <div>
-        <NavLink to="/queue"> 
+        <NavLink to="/detailPuskesmas"> 
         <button class="h-10 w-10 text-gray-400 hover:text-white">
             <svg viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
