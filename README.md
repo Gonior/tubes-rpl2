@@ -1,12 +1,14 @@
 # Tubes RPL-2 QUEUE APPS
-NIM | Name
---- | --- 
-10118901 | Dedi Cahya
-10118902 | Agung Sepruloh
-10118904 | Firman Alfinas
-10118910 | M. Syifa Amruloh
+
+| NIM      | Name             |
+| -------- | ---------------- |
+| 10118901 | Dedi Cahya       |
+| 10118902 | Agung Sepruloh   |
+| 10118904 | Firman Alfinas   |
+| 10118910 | M. Syifa Amruloh |
 
 ## Requirement
+
 - Node js version 12 above
 - git CLI
 - CMD / POWERSHELL / TERMINAL
@@ -19,10 +21,12 @@ cd tubes-rpl2
 ```
 
 ## Choose what you want to edit
+
 ```bash
 cd server // to edit server
 ```
-or 
+
+or
 
 ```bash
 cd client // to edit client
@@ -33,12 +37,24 @@ cd client // to edit client
 ```bash
 npm i // yarn (if you using yarn)
 ```
+
 ## Test Drive
 
 ```bash
 npm run dev
 ```
-or 
+
+or
+
 ```bash
 yarn dev
+```
+
+## MongoDB Connection
+
+To connect to your MongoDB database, you need to setup the MONGO_URI environment variable first.
+Example:
+
+```bash
+export MONGO_URI='<your_mongodb_uri>'
 ```
