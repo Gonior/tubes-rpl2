@@ -46,11 +46,6 @@
           out:scale={{ duration: 75, start: 0.95 }}
           class="origin-top-right absolute right-0 w-48 py-2 px-1 mt-1 bg-gray-800
             rounded shadow-md">
-            <NavLink to="/" >
-                <div on:click={() => show = !show} class="w-full text-gray-400 hover:bg-blue-500 py-2 px-3  hover:text-white rounded flex justify-between items-center">
-                  <span class="font-sm">Beranda</span>
-                </div>
-              </NavLink>
             <NavLink to='/login'> 
                 <div on:click={() => show = !show}  class="w-full text-gray-400 hover:bg-blue-500 py-2 px-3  hover:text-white rounded flex justify-between items-center">
                     <span class="font-sm">Login</span>
