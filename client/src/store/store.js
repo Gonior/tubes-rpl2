@@ -1,3 +1,3 @@
-import {writable} from 'svelte/store'
+import {readable} from 'svelte/store'
 
-export const showSplashScreen= writable(true)
+export const baseURL= readable("http://localhost:8080")

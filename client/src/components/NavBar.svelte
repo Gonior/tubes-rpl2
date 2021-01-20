@@ -23,8 +23,6 @@
                   </svg>
                 </button>
               </div>
-              
-              
             </div>
           {:else}
           <div class=" flex items-center px-4 justify-between  w-full">
@@ -43,9 +41,7 @@
               </DropDown>
             </div>
           </div>
-          
           {/if}
-          
         </div>
     </header>
     <slot />

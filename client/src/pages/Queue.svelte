@@ -1,9 +1,20 @@
 <script>
-    import BackButton from "../components/BackButton.svelte"
-    import DropDown from '../components/DropDown.svelte'
-    import NavLink from "../components/NavLink.svelte"
-    import CardQueue from "../components/CardQueue.svelte"
-    import {fly} from "svelte/transition"
+  import {navigate} from "svelte-routing"
+  import BackButton from "../components/BackButton.svelte"
+  import DropDown from '../components/DropDown.svelte'
+  import NavLink from "../components/NavLink.svelte"
+  import CardQueue from "../components/CardQueue.svelte"
+  import {fly} from "svelte/transition"
+  import { onMount } from "svelte";
+
+  export let id;
+  onMount(()=>{
+    if (localStorage.length === 0) {
+      navigate("/login", {replace : true})
+    }
+  })
+  
+  console.log(id)
 </script>
 
 <div
@@ -12,7 +23,7 @@
     class="flex flex-col h-full bg-blue-803 absolute inset-0 z-10 sm:px-32 md:px-48 lg:px-72">
     <div class="mt-20">
         <div class=" h-12 flex text-white items-center px-4 justify-between mt-10">
-            <NavLink to="/detailPuskesmas">
+            <NavLink to="/">
                 <BackButton promp="Kembali"/>
             </NavLink>
             <div class="flex flex-row ">
