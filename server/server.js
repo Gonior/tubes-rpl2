@@ -3,14 +3,17 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const { port, mongoURI } = require("./config");
+const passport = require("passport");
+const { port, mongoURI } = require("./config/config");
+
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}))
-
 app.use(morgan("dev"));
+app.use(passport.initialize());
+require("./config/passport")(passport);
 
 mongoose
 	.connect(mongoURI, {
@@ -21,6 +24,7 @@ mongoose
 	.then(() => console.log("MongoDB database is connected"))
 	.catch((err) => console.log(err));
 
-app.use("/", (req, res) => res.send("Hello world!"));
+app.get("/", (req, res) => res.json({message : "Hello world!"}));
+app.use("/login", require('./routes/auth'))
 
 app.listen(port, () => console.log(`Express is running on port ${port}`));

@@ -6,7 +6,7 @@
 	import Login from './pages/Login.svelte'
 	import SS from './components/SplashScreen.svelte'
 	import Queue from './pages/Queue.svelte';
-	// import DetailPuskesmas from './pages/DetailPuskesmas.svelte';
+	
 	let showSplashScreen = false
 	onMount(() => {
 		setTimeout(() => {showSplashScreen = false}, 5000)
@@ -24,7 +24,7 @@
 		<Route path="/queue/:id" let:params >
 			<Queue id="{params.id}"/>
 		</Route>
-		<!-- <Route path="/detailPuskesmas" component="{DetailPuskesmas}" /> -->
+		
 	</NavBar>
 </main>
 {/if}
