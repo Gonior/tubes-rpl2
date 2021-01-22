@@ -6,6 +6,8 @@
 	import Login from './pages/Login.svelte'
 	import SS from './components/SplashScreen.svelte'
 	import Queue from './pages/Queue.svelte';
+	import LoginAdmin from './pages/LoginAdmin.svelte';
+import LoginAdminPuskesmas from './pages/LoginAdminPuskesmas.svelte';
 	
 	let showSplashScreen = false
 	onMount(() => {
@@ -24,7 +26,8 @@
 		<Route path="/queue/:id" let:params >
 			<Queue id="{params.id}"/>
 		</Route>
-		
+		<Route path="/authadmin" component={LoginAdmin} />
+		<Route path="/auth" component={LoginAdminPuskesmas} />
 	</NavBar>
 </main>
 {/if}
