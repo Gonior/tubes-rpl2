@@ -3,11 +3,19 @@
     import { scale } from 'svelte/transition';
     import NavLink from './NavLink.svelte'
     import {cekLogin, logged} from '../store/store.js'
-    import { navigate } from 'svelte-routing';
-  
+    import Snackbar from './Snackbar.svelte'
+    let showSnackbar = false
+    let message = ""
     let show = false; // menu state
     let menu = null; // menu wrapper DOM reference
-
+    const showNotif = (msg, time) => {
+        if (time === undefined) time = 2000
+        message = msg
+        showSnackbar = true
+        setTimeout(() => {
+            showSnackbar = false            
+        }, time)
+    }
     onMount(async () => {
       $logged = await cekLogin()
       const handleOutsideClick = (event) => {
@@ -38,14 +46,16 @@
         show = !show
         localStorage.removeItem('token')  
         $logged = await cekLogin()
-
+        showNotif('Berhasil Log Out', 2000)
       } catch (error) {
         
       }
       
     }
   </script>
-  
+{#if showSnackbar}
+<Snackbar message={message} success={true}/>
+{/if}
   <div class="relative" bind:this={menu}>
     <div>
       <button

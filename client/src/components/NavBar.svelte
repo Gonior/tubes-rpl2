@@ -2,8 +2,9 @@
     import {Router} from 'svelte-routing'
     import DropDown from './DropDown.svelte'
     import {fade} from 'svelte/transition'
+    
     let openSearch = false
-   
+    
     export let url = ""
 </script>
 
@@ -46,4 +47,5 @@
     </header>
     <slot />
 </Router>
+
 

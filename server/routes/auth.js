@@ -44,6 +44,26 @@ router.post('/verify', (req, res) => {
 		return res.status(500).send('Unauthorized');
 	}
 })
+router.post('/signup', async (req, res) => {
+	const {nope, password, nama} = req.body
+	console.log({nope, password, nama})
+	let user = await User.findOne({ nope: nope })
+	if (user) return res.status(400).json({message : "Nomor HP sudah di gunakan"})
+	else {
+		try {
+			const newUser = new User({
+			  'nama': nama,
+			  'nope': nope,
+			  'password' : password
+			});
+			let saveUser = await newUser.save(); //when fail its goes to catch
+			if (saveUser) return res.status(200).json({message : "Berhasil mendaftar"})
+		  } catch (err) {
+			return res.status(400).json({message : err});
+		  }
+	}
+})
+
 
 router.post("/", async (req, res) => {
 	const { nope, password1 } = req.body;

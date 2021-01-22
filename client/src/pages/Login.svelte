@@ -17,39 +17,88 @@
     let password2 = ""
     let message = ""
     const handleSubmit = async () => {
-        isLoading = !isLoading
+        
         if (signIn) {
+            isLoading = !isLoading
             let url = $baseURL+'/login'
             try {
                 const resp = await axios.post(url, {password1, nope})
                 localStorage.setItem("token", resp.data.token)
-                isLoading = !isLoading
                 message = resp.data.message
                 success = true
-                showSnackbar = true
-                setTimeout(() => {
-                    showSnackbar = false
+                isLoading = !isLoading
+                showNotif(message, 2000, () => {
                     navigate('/', {replace : true})
                     $logged = true
-                }, 2000)
+                })
                 
 
             } catch (error) {
                 if (error.response) message = error.response.data.message
                 else message = error
                 success = false
-                showSnackbar = true
                 isLoading = !isLoading
-                setTimeout(() => {
-                    showSnackbar = false
-                }, 3000)
+                showNotif(message, 3000, null)
             }
             
-        } else  {
-            console.log({nama, nope, password1, password2, mode : 'sign up'})
+        } else {
+            if (nama.trim() === "" || nope.trim() === "" || password1.trim() === "" || password1.trim() === "") {
+                success = false
+                showNotif("Data Tidak Lengkap", 2000, null)
+            } else {
+                if (password1.length < 6) {
+                    success = false
+                    showNotif("Password minimal terdiri dari 6 huruf", 2000, null)
+                } else {
+                    if (password1 !== password2) {
+                        success = false
+                        showNotif('Konfirmasi password tidak cocok', 2000, null)
+                    } else {
+                        let regexPhone = /^0(\d{4}){2}(\d{1,4})$/g
+                        if (!regexPhone.test(nope)) {
+                            success = false
+                            showNotif("Nomor HP tidak Valid ", 2000, null)
+                        } else {
+                            isLoading = true 
+                            let url = $baseURL+'/login/signup'
+                            try {
+                                let response = await axios.post(url, {nama, nope, password : password1})
+                                message = response.data.message
+                                success = true
+                                isLoading = !isLoading
+                                
+                                showNotif(message, 2000, () => {
+                                    changeMode()
+                                })
+
+                            } catch (error) {
+                                if (error.response) message = error.response.data.message
+                                else message = error
+                                success = false
+                                isLoading = !isLoading
+                                showNotif(message, 3000, null)
+                            }
+                        }
+                    }
+                }
+            }
+            
         }
     }
+    //controller 
+    const showNotif = (msg, time, callback) => {
+        if (time === undefined) time = 2000
         
+        message = msg
+        showSnackbar = true
+        setTimeout(() => {
+            showSnackbar = false
+            if (callback != null) callback()
+        }, time)
+    }
+
+    
+
     const changeMode = () => {
         signIn = !signIn
         nama = ""
