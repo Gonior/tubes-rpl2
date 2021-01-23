@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const admin = require('./Admin.models')
 
 const UserSchema = new mongoose.Schema({
     nope : String,

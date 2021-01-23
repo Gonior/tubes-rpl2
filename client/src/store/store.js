@@ -5,18 +5,19 @@ export const baseURL= readable(url)
 
 export const logged = writable(false)
 
-export const cekLogin = async () => {
+export const loggedAdmin = writable(false)
+
+export const cekLogin = async (token) => {
     if (localStorage.length !== 0) {
         try {
-            let token = localStorage.getItem('token')
             let response = await axios.post(url+'/login/verify', "", {
                 headers : { 
-                    Authorization: token} 
+                    Authorization: token
+                } 
             })
             return response.data.verified
         } catch (error) {
             return false
         }
-    } else return false
-    
+    } else return false   
 }

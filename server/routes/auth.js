@@ -3,8 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { secret } = require('../config/config')
 const User = require('../models/Users.models')
-
-
+const Admin = require('../models/Admin.models')
 // router.post("/loginAdmin", (req, res) => {
 // 	const { errors, isValid } = validateLoginInput(req.body);
 
@@ -32,6 +31,8 @@ const User = require('../models/Users.models')
 // 		});
 // 	}
 // });
+
+
 router.post('/verify', (req, res) => {
 	if (req.headers.authorization) {
 		let token = req.headers.authorization.split(" ")[1];
@@ -46,7 +47,7 @@ router.post('/verify', (req, res) => {
 })
 router.post('/signup', async (req, res) => {
 	const {nope, password, nama} = req.body
-	console.log({nope, password, nama})
+	
 	let user = await User.findOne({ nope: nope })
 	if (user) return res.status(400).json({message : "Nomor HP sudah di gunakan"})
 	else {
@@ -77,6 +78,30 @@ router.post("/", async (req, res) => {
 			id: user._id,
 			nama: user.nama,
 			nope : user.nope
+		};
+		jwt.sign(
+			payload,
+			secret,
+			{ expiresIn: "10h" },
+			(err, token) => {
+				if (!err) {
+					res.json({ success: true,message : "Berhasil Login", token: "Bearer " + token });
+				} else res.status(400).json(err);
+			}
+		);
+	}
+});
+
+router.post("/a", async (req, res) => {
+	const { username, password } = req.body;
+	let admin = await Admin.findOne({ username: username, password : password })
+	if (!admin) {
+		return res.status(400).json({ message: "Username atau Password salah." });
+	}
+	else {
+		const payload = {
+			id: admin._id,
+			nama: admin.username,
 		};
 		jwt.sign(
 			payload,

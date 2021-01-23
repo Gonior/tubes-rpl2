@@ -26,5 +26,6 @@ mongoose
 
 app.get("/", (req, res) => res.json({message : "Hello world!"}));
 app.use("/login", require('./routes/auth'))
-
+app.use("/pk", require('./routes/puskesmas'))
+app.use("/q", require('./routes/queue'))
 app.listen(port, () => console.log(`Express is running on port ${port}`));

@@ -7,7 +7,10 @@
 	import SS from './components/SplashScreen.svelte'
 	import Queue from './pages/Queue.svelte';
 	import LoginAdmin from './pages/LoginAdmin.svelte';
-import LoginAdminPuskesmas from './pages/LoginAdminPuskesmas.svelte';
+	import LoginAdminPuskesmas from './pages/LoginAdminPuskesmas.svelte';
+import QueueManagement from './pages/QueueManagement.svelte'
+import Admin from './pages/Admin.svelte';
+
 	
 	let showSplashScreen = false
 	onMount(() => {
@@ -28,6 +31,8 @@ import LoginAdminPuskesmas from './pages/LoginAdminPuskesmas.svelte';
 		</Route>
 		<Route path="/authadmin" component={LoginAdmin} />
 		<Route path="/auth" component={LoginAdminPuskesmas} />
+		<Route path="/pk/m" component={QueueManagement} />
+		<Route path="/pk/a" component={Admin}/>
 	</NavBar>
 </main>
 {/if}

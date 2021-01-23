@@ -12,7 +12,7 @@
     let message = ""
     const handleSubmit = async () => {
         isLoading = !isLoading
-        let url = $baseURL+'/auth/admin'
+        let url = $baseURL+'/auth/puskemas'
         try {
             const resp = await axios.post(url, {kode : input})
             localStorage.setItem("token admin", resp.data.token)

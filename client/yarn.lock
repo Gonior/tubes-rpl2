@@ -570,6 +570,21 @@ fastq@^1.6.0:
   dependencies:
     reusify "^1.0.4"
 
+filepond-plugin-image-exif-orientation@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-image-exif-orientation/-/filepond-plugin-image-exif-orientation-1.0.9.tgz#bf1220d99c117a69859f3297d0618e7469705019"
+  integrity sha512-Pyw7oNpMk5YwX0eYsa1wjNTJ2WxTQ27VUDviV0XrNbKPB7/iDSZ9r2zWSEeT9yS46OUGNE8lcdAARi5Z2v5TLA==
+
+filepond-plugin-image-preview@^4.6.4:
+  version "4.6.4"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-image-preview/-/filepond-plugin-image-preview-4.6.4.tgz#19edade651559cf8c9fb97bcc8ce56af16ebae67"
+  integrity sha512-grlFJv1LH4E7IzsKTIFI52LuyLQa+lXMqmUnSm0cufDblRXHxdraRkjj/88bd9pyVJm206dBXQnlIVVyEaE5xg==
+
+filepond@^4.25.1:
+  version "4.25.1"
+  resolved "https://registry.yarnpkg.com/filepond/-/filepond-4.25.1.tgz#426e7cce3d0cdccb2d5623bedc5a8db772ae167b"
+  integrity sha512-8UPPTzfpHZRUtJl3dEcGMLYOygg8taJZpYTv1WaEkvzeI+X0JX9+agMJ+5Lu1EKtdt9dGq/9Gud+EnNRBaGl1A==
+
 fill-range@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/fill-range/-/fill-range-7.0.1.tgz#1919a6a7c75fe38b2c7c77e5198535da9acdda40"
@@ -1621,6 +1636,11 @@ supports-color@^7.0.0, supports-color@^7.1.0:
   integrity sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==
   dependencies:
     has-flag "^4.0.0"
+
+svelte-filepond@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/svelte-filepond/-/svelte-filepond-0.0.1.tgz#7c20379213dac746192499d3d1de649d6db51c4b"
+  integrity sha512-R5z/Gj/2VSdV70GxvW226ww4zrVyV2EFTXrsWIdn7sEB7uYWIJvvciUNQVTfYZfcAgGsa4gprGsuqWNG3auSKw==
 
 svelte-preprocess@^4.6.1:
   version "4.6.1"

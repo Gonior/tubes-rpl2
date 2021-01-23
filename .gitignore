@@ -1,6 +1,8 @@
 /client/node_modules/
 /client/public/build/
 /server/node_modules/
+/server/uploads/*
 .DS_Store
 getWeight.js
+
 server/yarn.lock

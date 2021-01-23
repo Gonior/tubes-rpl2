@@ -5,29 +5,35 @@
   import CardQueue from "../components/CardQueue.svelte"
   import Modal from "../components/Modal.svelte"
   import {fly} from "svelte/transition"
-  import {cekLogin} from "../store/store.js"
+  import {cekLogin, baseURL} from "../store/store.js"
   import { onMount } from "svelte";
+  import axios from 'axios'
 
   export let id;
   let showModal = false
   let confirmQueueMode = true
 
   onMount(async ()=>{
-    let log = await cekLogin()
-    if (!log) navigate('/login', {replace : true})
+    if (localStorage.getItem('token') == null) navigate('/login', {replace : true})
     else {
-      console.log(localStorage.getItem('token'))
-      console.log(id)
+      let log = await cekLogin(localStorage.getItem('token'))
+      if (!log) navigate('/login', {replace : true})
     }
   })
   
   const handleCloseModal = (e) => {
     showModal = e.detail.showModal
   }
+
+  const getData = async () => {
+    let url = $baseURL+'/q/'+id
+    let res = await axios.get(url);
+    return res.data.queue
+  }
+  
+  let data = getData()
   
 </script>
-
-
 
 <div
     in:fly={{x :300, duration:300}} 
@@ -42,14 +48,20 @@
         </div>
     </div>
     <div class="mt-16 flex flex-col">
+      {#await data}
+        <h1 class="text-white text-2xl text-center">loading ...</h1>  
+      {:then value} 
         <div class="flex space-x-2 px-2 mb-4">
-            <CardQueue promp="Sisa antrean" num=20/>
-            <CardQueue promp="Total Antrean" num=100/>
-        </div>
-        <div class="w-full bg-blue-802 rounded-xl flex flex-col items-center py-10 shadow-md">
-            <h1 class="text-5xl font-semibold text-white">20</h1>
-            <p class="text-2xl text-gray-300">Sisa Antrean</p>
-        </div>
+          <CardQueue promp="Sisa antrean" num={value.length}/>
+          <CardQueue promp="Antrean Saat ini" num={value.length}/>
+      </div>
+      <div class="w-full bg-blue-802 rounded-xl flex flex-col items-center py-10 shadow-md">
+          <h1 class="text-5xl font-semibold text-white">x</h1>
+          <p class="text-2xl text-gray-300">Antrean Anda</p>
+      </div>
+      {/await}
+      
+        
     </div>
     <div class="w-full px-3 mt-5">
       <button class="py-2 rounded-xl w-full bg-red-600 text-white hover:bg-red-700 uppercase shadow">batalkan antrean</button>
