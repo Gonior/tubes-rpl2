@@ -9,15 +9,12 @@
     import FilePond, { registerPlugin, supported } from 'svelte-filepond';
     import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
     import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+    import ModalAdmin from '../components/ModalAdmin.svelte'
     import {navigate} from 'svelte-routing'
     import axios from 'axios'
     import {baseURL, cekLogin} from '../store/store.js'
     registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
     
-
-    // pond.getFiles() will return the active files
-
-    // the name to use for the internal file input
     function handleInit() {
         logs = [...logs, {err : false, message : `${timeString} - init a file`}]
     }
@@ -165,12 +162,28 @@
             error.response ? msg = error.response.message : msg = error
             logs = [...logs, {err : true, message : `${timeString} - ${msg}`}]
         }
-        
-
+    }
+    let editPk = {}
+    let showModal = false;
+    const openModal = (pk) => {
+        editPk = {...pk}
+        showModal = !showModal;
+    }
+    const handleCloseModal = async (e) => {
+        showModal = e.detail.showModal
+        if (e.detail.edited) {
+            logs = [...logs, {err : false, message : `${timeString} - berhasil merubah data puskesmas`}]    
+            
+            puskesmas = [... await getData()]
+            logs = [...logs, {err : false, message : `${timeString} - reload detect`}]
+        }
     }
 </script>
 
 <div class="flex w-full bg-gray-100 h-full absolute inset-0 z-10"> 
+    {#if showModal}
+        <ModalAdmin  {showModal} on:close={handleCloseModal} {...editPk}/>
+    {/if}
     <div class="w-1/2 p-2 flex flex-col justify-between">
         <div class="h-3/4 bg-gray-200 shadow-lg p-1">
             <form on:submit|preventDefault={handleSubmit}  class="h-full ">
@@ -231,10 +244,15 @@
                         </div>
                     </div>
                     
-                    <div>
+                    <div class="flex space-x-1">
                         <button class="h-5 w-5 text-gray-400 hover:text-black" on:click={removePk(pk._id)}>
                             <svg viewBox="0 0 24 24">
                                 <path d="M4 7h16m-4 0V4a1 1 0 00-1-1H9a1 1 0 00-1 1v3M6 7h12v13a1 1 0 01-1 1H7a1 1 0 01-1-1V7h0z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                            </svg> 
+                        </button>
+                        <button class="h-5 w-5 text-gray-400 hover:text-black" on:click={openModal(pk)}>
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20.41 7.83L7.24 21H3v-4.24L16.17 3.59a1 1 0 011.42 0l2.82 2.82a1 1 0 010 1.42z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                             </svg> 
                         </button>
                     </div>

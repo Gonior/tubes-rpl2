@@ -23,6 +23,19 @@ router.post('/add', authenticateAdminToken ,upload.single('foto'), async (req, r
       }
 })
 
+router.post('/edit/:id', authenticateAdminToken, upload.single('foto'), async (req, res) => {
+    let {nama, alamat, fotoName} = req.body;
+    try {
+        let pkUpdate = await Puskemas.updateOne({_id : req.params.id}, {nama, alamat, fotoName})
+        if (pkUpdate.ok > 0) return res.status(200).json({message : 'Puskesmas berhasil dirubah'})
+        else return res.status(400).json({message : 'something error'})
+    } catch (error) {
+        res.status(400).json({message : error})
+        console.log(error)
+    }
+    
+
+})
 router.get('/', (req, res) => {
 
     try {
