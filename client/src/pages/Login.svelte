@@ -1,3 +1,6 @@
+<svelte:head>
+    <title>Login</title>
+</svelte:head>
 <script>
     import BackButton from "../components/BackButton.svelte";
     import NavLink from "../components/NavLink.svelte";

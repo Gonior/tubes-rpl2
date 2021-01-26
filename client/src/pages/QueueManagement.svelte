@@ -119,9 +119,10 @@
             <CardQueue promp="Sisa antrean" num={getSisa(value)}/>
             <CardQueue promp="Total Antrean" num={value.length}/>    
         </div>
-        <div class="w-full bg-blue-802 rounded-xl flex flex-col items-center py-10 shadow-md" on:click={() => showModal = !showModal}>
-            <h1 class="text-5xl font-semibold text-white">{getCurrentQueues(value)}</h1>
-            <p class="text-2xl text-gray-300">Antrean Saat Ini</p>
+        <div class="w-full bg-blue-802 rounded-xl flex flex-col items-center py-10 shadow-md cursor-pointer" on:click={() => showModal = !showModal}>
+          <p class="text-xl text-gray-300">No antrean Saat Ini</p>
+            <h1 class="text-5xl font-semibold text-white">{getCurrentQueues(value) === 0 ? '-' : getCurrentQueues(value)}</h1>
+            
         </div>
         {:catch error}
         <p class="text-red-500">{error}</p>

@@ -1,6 +1,9 @@
 <style global>
     @import 'filepond-plugin-image-preview.css';
 </style>
+<svelte:head>
+    <title>Admin</title>
+</svelte:head>
 <script>
     import {beforeUpdate, afterUpdate, onMount} from 'svelte'
     import FilePond, { registerPlugin, supported } from 'svelte-filepond';
@@ -222,9 +225,9 @@
                             <img class="object-cover h-16 rounded" src="{$baseURL+'/pk/photo/'+pk.fotoName}" alt="{pk.nama}">
                         </div>
                         <div>
+                            <code><p class="text-sm font-semibold text-gray-700">{pk.kode}</p></code>
                             <h1 class="text-xl">{pk.nama}</h1>
                             <p class="text-sm text-gray-700">{pk.alamat}</p>
-                            <p class="text-sm font-semibold text-gray-700">{pk.kode}</p>
                         </div>
                     </div>
                     

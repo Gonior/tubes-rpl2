@@ -1,3 +1,6 @@
+<svelte:head>
+    <title>Queue Apps - Informasi Antrean</title>
+</svelte:head>
 <script>
   import { navigate } from "svelte-routing";
   import BackButton from "../components/BackButton.svelte";
@@ -99,11 +102,12 @@
   <div class="mt-16 flex flex-col">
       <div class="flex space-x-2 px-2 mb-4">
         <CardQueue promp="Sisa antrean" num={getSisa(value.queue)} />
-        <CardQueue promp="Antrean Saat ini" num={getCurrentQueues(value.queue)} />
+        <CardQueue promp="No antrean Saat ini" num={getCurrentQueues(value.queue)} />
       </div>
       <div
-        class="w-full bg-blue-802 rounded-xl flex flex-col items-center py-10 shadow-md"
+        class="w-full bg-blue-802 rounded-xl flex flex-col justify-between items-center py-10 shadow-md"
       >
+      <p class="text-xl text-gray-300 ">No antrean Anda</p>
       {#if isloading}
       <h1 class="text-white text-center">...</h1>
       {:else}
@@ -114,7 +118,7 @@
         {/if}
     {/if}
         
-        <p class="text-2xl text-gray-300">Antrean Anda</p>
+        
       </div>
     
   </div>

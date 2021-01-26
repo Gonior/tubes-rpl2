@@ -1,3 +1,6 @@
+<svelte:head>
+    <title>Login Admin</title>
+</svelte:head>
 <script>
     import axios from "axios"
     import {fly, slide} from "svelte/transition"
