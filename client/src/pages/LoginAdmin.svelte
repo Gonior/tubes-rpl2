@@ -16,6 +16,7 @@
         let url = $baseURL+'/login/a'
         try {
             const resp = await axios.post(url, {password, username})
+            localStorage.clear()
             localStorage.setItem("token admin", resp.data.token)
             message = resp.data.message
             success = true

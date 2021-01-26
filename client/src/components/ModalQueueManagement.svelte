@@ -23,8 +23,8 @@
     
 </script>
 {#if showModal}
-    <div class="bg-gray-600 px-5 bg-opacity-90 min-h-screen w-full absolute flex justify-center items-center inset-0 z-20"  in:fly={{y :-100 ,duration : 200}} out:fly={{y : -100, duration : 200}}  on:click|self={handleClose}>
-        <div class="bg-blue-803 h-1/3 w-full sm:w-3/4 md:w-1/2 lg:w-1/3 rounded shadow-lg p-5">
+    <div class="bg-gray-600 px-5 bg-opacity-90 min-h-screen w-full absolute flex justify-center items-center inset-0 z-20" on:click|self={handleClose}>
+        <div class="bg-blue-803 h-1/3 w-full sm:w-3/4 md:w-1/2 lg:w-1/3 rounded shadow-lg p-5"  in:fly={{y :-100 ,duration : 200}} out:fly={{y : -100, duration : 200}}  >
             <div class="flex flex-col w-full justify-around h-full">
                 <div class="flex items-center justify-between -mt-5">
                     <h1 class="text-xl tracking-wider text-white"> Konfirmasi antrean </h1>

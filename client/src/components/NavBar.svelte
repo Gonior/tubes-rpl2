@@ -16,8 +16,9 @@
             <div 
               class="w-full flex items-center justify-center" 
               in:fade={{ duration: 100}}>
+              
               <div class=" flex items-center justify-between w-full lg:w-1/2 px-4">
-                <input type="text" class="bg-transparent focus:border-gray-300 focus:outline-none border-b border-gray-600 w-full placeholder-gray-400 text-white mr-5" placeholder="Cari..">
+                <slot name="search"></slot>
                 <button on:click="{() => openSearch = !openSearch}" class="bg-transparent rounded hover:text-white text-gray-400 focus:ring-0 focus:outline-none">
                   <svg class="h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 19L5 5M19 5L5 19"/>

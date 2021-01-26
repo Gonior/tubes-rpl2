@@ -1,12 +1,13 @@
 const express = require('express')
 const upload = require('../controller/uploadController')
+const {authenticateAdminToken} = require('../controller/myController')
 const path = require('path')
 const router = express.Router()
 const Puskemas = require('../models/Puskesmas.models')
 const fs = require('fs')
 
 
-router.post('/add', upload.single('foto'), async (req, res) => {
+router.post('/add', authenticateAdminToken ,upload.single('foto'), async (req, res) => {
     let {nama, kode, alamat, fotoName} = req.body
     try {
         let newPk = new Puskemas({
@@ -35,7 +36,7 @@ router.get('/', (req, res) => {
     
 })
 
-router.delete("/:id", async (req ,res) => {
+router.delete("/:id",authenticateAdminToken , async (req ,res) => {
     
     Puskemas.findOne({_id : req.params.id}).then((result) => {
         let img = result.fotoName

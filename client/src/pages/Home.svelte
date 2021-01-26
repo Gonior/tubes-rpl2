@@ -1,25 +1,38 @@
 <script>
     import CardPuskesmas from '../components/CardPuskesmas.svelte'
-    import {fly} from 'svelte/transition'
     import {baseURL} from '../store/store.js'
     import axios from 'axios'
     export let location
-
-    const getdata = async () => {
+    export let keyword = ""
+    
+    $: data = getdata(keyword)
+    
+    const getdata = async (key) => {
         let url = $baseURL+'/pk'
         let res = await axios.get(url)
-        return res.data.puskesmas
+        let result = []; 
+
+        if (key != "") {
+            let pks = await res.data.puskesmas    
+            
+            if(pks.length > 0) {
+                result = [...pks.filter(p => p.nama.toUpperCase() === key.toUpperCase())]
+            }
+        } else result = [...await res.data.puskesmas ]
+        return result
     }
 
-    let data = getdata()
+    
     
 </script>
-<main class="py-2 px-1 mt-3 sm:px-32 md:px-48 lg:px-72" in:fly={{x :-300, duration:300}} out:fly={{x : 300, duration:300}}>
+<main class="py-2 px-1 mt-3 sm:px-32 md:px-48 lg:px-72" >
     {#await data}
-    <p class="text-white">loading..</p>
+    <CardPuskesmas isLoading={true}/>
     {:then value}
-        {#each value as p}
+        {#each value as p}    
             <CardPuskesmas {...p} />
+        {:else}
+            <h1 class="text-2xl text-white text-center">{keyword} tidak ditemukan</h1>
         {/each}
     {:catch error}
     <p class="text-red-500 font-semibold">{error}</p>

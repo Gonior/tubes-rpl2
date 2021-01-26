@@ -10,8 +10,7 @@
 	import LoginAdminPuskesmas from './pages/LoginAdminPuskesmas.svelte';
 import QueueManagement from './pages/QueueManagement.svelte'
 import Admin from './pages/Admin.svelte';
-
-	
+	let keyword = ""
 	let showSplashScreen = false
 	onMount(() => {
 		setTimeout(() => {showSplashScreen = false}, 5000)
@@ -22,7 +21,10 @@ import Admin from './pages/Admin.svelte';
 {:else}
 <main class="bg-blue-803 min-h-screen relative" >
 	<NavBar >
-		<Route path="/" component="{Home}" />
+		<input slot="search" type="text" class="bg-transparent focus:border-gray-300 focus:outline-none border-b border-gray-600 w-full placeholder-gray-400 text-white mr-5" placeholder="Cari.." bind:value="{keyword}">
+		<Route path="/" >		
+			<Home {keyword}/>
+		</Route>
 		<Route path="/login">
 			<Login /> 
 		</Route>
@@ -31,7 +33,9 @@ import Admin from './pages/Admin.svelte';
 		</Route>
 		<Route path="/authadmin" component={LoginAdmin} />
 		<Route path="/auth" component={LoginAdminPuskesmas} />
-		<Route path="/pk/m" component={QueueManagement} />
+		<Route path="/pk/:id" let:params>
+			<QueueManagement id={params.id}/>
+		</Route>
 		<Route path="/pk/a" component={Admin}/>
 	</NavBar>
 </main>

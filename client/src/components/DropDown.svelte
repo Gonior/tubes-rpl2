@@ -2,10 +2,13 @@
     import { onMount } from 'svelte';
     import { scale } from 'svelte/transition';
     import NavLink from './NavLink.svelte'
-    import {cekLogin, logged} from '../store/store.js'
+    import {cekLogin, logged, cekStatus, queued} from '../store/store.js'
     import Snackbar from './Snackbar.svelte'
+  import { navigate } from 'svelte-routing';
+
     let showSnackbar = false
     let message = ""
+    let data
     let show = false; // menu state
     let menu = null; // menu wrapper DOM reference
     const showNotif = (msg, time) => {
@@ -17,7 +20,15 @@
         }, time)
     }
     onMount(async () => {
-      $logged = await cekLogin()
+      if (localStorage.getItem("token") == null) $logged = false
+      else {
+        $logged = await cekLogin(localStorage.getItem("token"))  
+        if ($logged) {
+            data = await cekStatus()
+            $queued = await data.queued
+        }
+      }
+      
       const handleOutsideClick = (event) => {
         if (show && !menu.contains(event.target)) {
           show = false;
@@ -45,8 +56,20 @@
       try {
         show = !show
         localStorage.removeItem('token')  
-        $logged = await cekLogin()
+        $logged = false
         showNotif('Berhasil Log Out', 2000)
+      } catch (error) {
+        
+      }
+      
+    }
+    const handleNavigate = async () => {
+      try {
+        if ($queued) {
+          show = !show
+          navigate(`/queue/${data.on}`, {replace : true})
+        }
+        
       } catch (error) {
         
       }
@@ -72,6 +95,11 @@
           class="origin-top-right absolute right-0 w-48 py-2 px-1 mt-1 bg-gray-800
             rounded shadow-md">
             {#if $logged}
+            
+            <div disabled={$queued} on:click={handleNavigate} class="w-full {$queued ? 'text-gray-400 hover:text-white hover:bg-blue-500' : 'text-gray-600'} disabled:opacity-50  py-2 px-3   rounded flex justify-between items-center">
+                <span class="font-sm">Antrean Anda</span>
+            </div>
+            
               <button on:click={handleLogout} class="w-full text-gray-400 hover:bg-red-400 py-2 px-3  hover:text-white rounded flex justify-between items-center">
                 Log Out
               </button>

@@ -4,45 +4,19 @@ const jwt = require("jsonwebtoken");
 const { secret } = require('../config/config')
 const User = require('../models/Users.models')
 const Admin = require('../models/Admin.models')
-// router.post("/loginAdmin", (req, res) => {
-// 	const { errors, isValid } = validateLoginInput(req.body);
-
-// 	if (!isValid) {
-// 		return res.status(400).json(errors);
-// 	} else {
-// 		const pin = req.body.pin;
-// 		User.findOne({ pin: pin, role: "Admin" }).then((user) => {
-// 			if (!user) return res.status(400).json({ pin: "PIN is wrong" });
-// 			else {
-// 				const payload = {
-// 					id: user._id,
-// 					name: user.name,
-// 					role: user.role,
-// 				};
-// 				jwt.sign(payload, secret, { expiresIn: "1d" }, (err, token) => {
-// 					if (!err) {
-//                         res.status(200).json({
-// 							success: true,
-// 							token: "Bearer " + token,
-// 						});
-// 					} else res.status(400).json(err);
-// 				});
-// 			}
-// 		});
-// 	}
-// });
+const Puskesmas = require('../models/Puskesmas.models')
 
 
-router.post('/verify', (req, res) => {
+router.get('/verify', (req, res) => {
 	if (req.headers.authorization) {
 		let token = req.headers.authorization.split(" ")[1];
 		jwt.verify(token, secret, (err, decode) => {
 			if (decode) {
 				return res.status(200).json({verified : true})
-			} else return res.status(500).send('Unauthorized');
+			} else return res.status(401).send('lah kenapa jir');
 		});
 	} else {
-		return res.status(500).send('Unauthorized');
+		return res.status(401).send('wkwkwk');
 	}
 })
 router.post('/signup', async (req, res) => {
@@ -68,7 +42,6 @@ router.post('/signup', async (req, res) => {
 
 router.post("/", async (req, res) => {
 	const { nope, password1 } = req.body;
-
 	let user = await User.findOne({ nope: nope, password : password1 })
 	if (!user) {
 		return res.status(400).json({ message: "Nomor HP atau Password salah." });
@@ -77,7 +50,8 @@ router.post("/", async (req, res) => {
 		const payload = {
 			id: user._id,
 			nama: user.nama,
-			nope : user.nope
+			nope : user.nope,
+			isAdmin : false
 		};
 		jwt.sign(
 			payload,
@@ -102,6 +76,7 @@ router.post("/a", async (req, res) => {
 		const payload = {
 			id: admin._id,
 			nama: admin.username,
+			isAdmin : true
 		};
 		jwt.sign(
 			payload,
@@ -110,6 +85,30 @@ router.post("/a", async (req, res) => {
 			(err, token) => {
 				if (!err) {
 					res.json({ success: true,message : "Berhasil Login", token: "Bearer " + token });
+				} else res.status(400).json(err);
+			}
+		);
+	}
+});
+
+router.post("/pka", async (req, res) => {
+	const { kode } = req.body;
+	let puskesmas = await Puskesmas.findOne({kode : kode})
+	if (!puskesmas) {
+		return res.status(400).json({ message: "Kode Puskesmas tidak ditemukan" });
+	}
+	else {
+		const payload = {
+			id: puskesmas._id,
+			isAdmin : true
+		};
+		jwt.sign(
+			payload,
+			secret,
+			{ expiresIn: "10h" },
+			(err, token) => {
+				if (!err) {
+					res.json({ success: true,message : "Berhasil Login", token: "Bearer " + token , pk : puskesmas._id});
 				} else res.status(400).json(err);
 			}
 		);

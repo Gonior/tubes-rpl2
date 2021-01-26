@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const passport = require("passport");
 const { port, mongoURI } = require("./config/config");
 
 
@@ -12,14 +11,14 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(morgan("dev"));
-app.use(passport.initialize());
-require("./config/passport")(passport);
+
 
 mongoose
 	.connect(mongoURI, {
 		useNewUrlParser: true,
 		useCreateIndex: true,
 		useUnifiedTopology: true,
+		useFindAndModify : true
 	})
 	.then(() => console.log("MongoDB database is connected"))
 	.catch((err) => console.log(err));

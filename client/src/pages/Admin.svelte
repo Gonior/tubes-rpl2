@@ -97,7 +97,8 @@
                         let url = $baseURL+"/pk/add"
                         let response = await axios.post(url, fd, {
                             headers : {
-                                "Content-Type": "multipart/form-data"
+                                "Content-Type": "multipart/form-data",
+                                Authorization : localStorage.getItem('token admin')
                             }
                         })
                         if (response.data) {
@@ -149,7 +150,11 @@
     const removePk = async (id) => {
         let url = $baseURL+"/pk/"+id
         try {
-            let res = await axios.delete(url)
+            let res = await axios.delete(url, {
+                headers : {            
+                    Authorization : localStorage.getItem('token admin')
+                }
+            })
             logs = [...logs, {err : false, message : `${timeString} - ${res.data.message}`}]
             puskesmas = [... await getData()]
         } catch (error) {
@@ -170,7 +175,7 @@
                     <div class="flex flex-row py-1">
                         <div class="w-2/5 ">
                             <FilePond bind:this={pond} {name} server="/" class="filepond" allowMultiple={false} oninit={handleInit} onaddfile={handleAddFile}/>
-                            <!-- <img class="object-cover rounded h-36" src="https://pelitasukabumi.com/wp-content/uploads/2020/06/puskesmas-sukabumi.jpg" alt="puskesmas"> -->
+
                         </div>
                         <div class="w-3/5 ml-2">
                             <div>
@@ -219,6 +224,7 @@
                         <div>
                             <h1 class="text-xl">{pk.nama}</h1>
                             <p class="text-sm text-gray-700">{pk.alamat}</p>
+                            <p class="text-sm font-semibold text-gray-700">{pk.kode}</p>
                         </div>
                     </div>
                     

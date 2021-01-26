@@ -6,7 +6,9 @@ const QueueSchema = new mongoose.Schema({
     current : Boolean,
     nomor : Number,
     queued_on :String,
-    user_id : String
+    user_id : String,
+    cancel : Boolean
+
 })
 const queue = mongoose.model('queues', QueueSchema)
 

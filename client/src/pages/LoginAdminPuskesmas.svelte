@@ -3,7 +3,7 @@
     import {fly, slide} from "svelte/transition"
     import Snackbar from "../components/Snackbar.svelte";
     import {navigate} from 'svelte-routing'
-    import {baseURL, logged} from '../store/store.js'
+    import {baseURL} from '../store/store.js'
     
     let showSnackbar = false
     let isLoading = false
@@ -12,16 +12,17 @@
     let message = ""
     const handleSubmit = async () => {
         isLoading = !isLoading
-        let url = $baseURL+'/auth/puskemas'
+        let url = $baseURL+'/login/pka'
         try {
             const resp = await axios.post(url, {kode : input})
-            localStorage.setItem("token admin", resp.data.token)
+            localStorage.clear()
+            localStorage.setItem("token pk", resp.data.token)
             message = resp.data.message
             success = true
             isLoading = !isLoading
             showNotif(message, 2000, () => {
-                navigate('/admin', {replace : true})
-                // $logged = true
+                navigate(`/pk/${resp.data.pk}`, {replace : true})
+                
             })
             
 
