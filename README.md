@@ -7,6 +7,10 @@
 | 10118904 | Firman Alfinas   |
 | 10118910 | M. Syifa Amruloh |
 
+## Link
+- client : [here](https://queue-apps.vercel.app)
+- server : [here](https://api-queue-apps.herokuapp.com)
+
 ## Requirement
 
 - Node js version 12 above
