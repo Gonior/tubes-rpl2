@@ -1,6 +1,3 @@
-<style global>
-    @import 'filepond-plugin-image-preview.css';
-</style>
 <svelte:head>
     <title>Admin</title>
 </svelte:head>
