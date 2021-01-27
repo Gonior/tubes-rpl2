@@ -187,7 +187,7 @@
                 <div class="flex flex-col">
                     <div class="flex flex-row py-1">
                         <div class="w-2/5 ">
-                            <FilePond bind:this={pond} {name} server="/pk/a/uploads" class="filepond" allowMultiple={false} oninit={handleInit} onaddfile={handleAddFile}/>
+                            <FilePond bind:this={pond} {name} server="/pk/a" class="filepond" allowMultiple={false} oninit={handleInit} onaddfile={handleAddFile}/>
 
                         </div>
                         <div class="w-3/5 ml-2">
