@@ -8,12 +8,12 @@
 	import Queue from './pages/Queue.svelte';
 	import LoginAdmin from './pages/LoginAdmin.svelte';
 	import LoginAdminPuskesmas from './pages/LoginAdminPuskesmas.svelte';
-import QueueManagement from './pages/QueueManagement.svelte'
-import Admin from './pages/Admin.svelte';
+	import QueueManagement from './pages/QueueManagement.svelte'
+	import Admin from './pages/Admin.svelte';
 	let keyword = ""
-	let showSplashScreen = false
+	let showSplashScreen = true
 	onMount(() => {
-		setTimeout(() => {showSplashScreen = false}, 5000)
+		setTimeout(() => {showSplashScreen = false}, 3000)
 	})
 </script>
 {#if showSplashScreen}
