@@ -10,7 +10,8 @@
 ## Link
 - client : [here](https://queue-apps.vercel.app)
 - server : [here](https://api-queue-apps.herokuapp.com)
-
+- Admin Page (client) can access in `(https://queue-apps.vercel.app/authadmin` call me on Whatsapp if you want username and password
+- Admin Puskesmas Page (client) can access in `https://queue-apps.vercel.app/auth`, and then enter Puskesmas Kode. (You can see Puskesmas Kode after login in Admin Page)
 ## Requirement
 
 - Node js version 12 above
