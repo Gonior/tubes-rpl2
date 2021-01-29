@@ -1,10 +1,16 @@
 <script>
     import {Router} from 'svelte-routing'
     import DropDown from './DropDown.svelte'
+    import {createEventDispatcher} from 'svelte'
     import {fade} from 'svelte/transition'
-    
+    const dispatch = createEventDispatcher();
     let openSearch = false
-    
+    const handleClose = () => {
+      openSearch = !openSearch
+      dispatch('closeSearch', {
+        'keyword' : ""
+      })
+    }
     export let url = ""
 </script>
 
@@ -19,7 +25,7 @@
               
               <div class=" flex items-center justify-between w-full lg:w-1/2 px-4">
                 <slot name="search"></slot>
-                <button on:click="{() => openSearch = !openSearch}" class="bg-transparent rounded hover:text-white text-gray-400 focus:ring-0 focus:outline-none">
+                <button on:click="{handleClose}" class="bg-transparent rounded hover:text-white text-gray-400 focus:ring-0 focus:outline-none">
                   <svg class="h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 19L5 5M19 5L5 19"/>
                   </svg>

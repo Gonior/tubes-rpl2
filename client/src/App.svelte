@@ -15,12 +15,15 @@
 	onMount(() => {
 		setTimeout(() => {showSplashScreen = false}, 3000)
 	})
+	const handleClose = (e) => {
+		keyword = e.detail.keyword
+	}
 </script>
 {#if showSplashScreen}
 	<SS />
 {:else}
 <main class="bg-blue-803 min-h-screen relative" >
-	<NavBar >
+	<NavBar on:closeSearch={handleClose}>
 		<input slot="search" type="text" class="bg-transparent focus:border-gray-300 focus:outline-none border-b border-gray-600 w-full placeholder-gray-400 text-white mr-5" placeholder="Cari.." bind:value="{keyword}">
 		<Route path="/" >		
 			<Home {keyword}/>
