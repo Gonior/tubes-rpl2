@@ -154,7 +154,7 @@
                                 </div>
                                 {:else}
                                 <div >
-                                    <FilePond bind:this={pond} {name} server="/" class="filepond" allowMultiple={false} onaddfile={handleAddFile}/>
+                                    <FilePond bind:this={pond} {name} class="filepond" allowMultiple={false} onaddfile={handleAddFile}/>
                                     <div class="flex flex-col items-center w-full">
                                         <button class=" text-gray-300 w-1/2 py-2 rounded hover:text-white" on:click={toggleEditPhoto}>
                                             Cancel

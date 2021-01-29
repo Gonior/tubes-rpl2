@@ -50,16 +50,16 @@ router.post('/add', authenticateToken, async (req, res) => {
             let checkYourQueue = await Queue.findOne({user_id : user_id, queued_on:getDate(), done : false, cancel : false})
             if (checkYourQueue)  return res.status(400).json({message : "Gagal mendaftar antrean, silakan batalkan antrean anda sebelumnya"})
 
-            let q = await Queue.find({puskesmas_id : puskesmas_id, queued_on:getDate()})
+            let q = await Queue.find({puskesmas_id : puskesmas_id, queued_on:getDate(), cancel : false, done:false, current : false})
             if ( await q.length === 0 ) current = true
-            let qLength = await q.length + 1
+            let qLength = await Queue.find({puskesmas_id : puskesmas_id, queued_on:getDate()})
             try {
                 let newQ = new Queue({
                     'puskesmas_id' : puskesmas_id,
                     'done' : false,
                     'current' : current,
                     'cancel' : false,
-                    'nomor' : await qLength,
+                    'nomor' : await qLength.length+1,
                     'queued_on' : getDate(),
                     'user_id' : user_id
                 })
@@ -80,9 +80,9 @@ router.post('/cancel', authenticateToken, async (req, res) => {
     if (alasan == "") return res.status(400).json({message : "Setidaknya beri alasan, jangan seperti doi yang pergi tanpa alasan"})
     else {
         try {
-            let queue = await Queue.findOneAndUpdate({puskesmas_id :puskesmas_id, user_id : user_id}, {cancel : true})
-            let qSave = queue.save()
-            if (qSave) res.status(200).json({message : "Antrean Berhasil dibatalkan"})
+            let queue = await Queue.updateOne({puskesmas_id :puskesmas_id, user_id : user_id, queued_on:getDate(), cancel:false, done : false}, {cancel : true})
+            
+            if (queue.ok > 0) res.status(200).json({message : "Antrean Berhasil dibatalkan!"})
             else res.status(400).json({message : "entah kenapa ga bisa dibatalkan gaes :)"})
         } catch (error) {
             console.log(error)
