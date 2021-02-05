@@ -31,7 +31,7 @@
                 message = resp.data.message
                 success = true
                 isLoading = !isLoading
-                showNotif(message, 2000, () => {
+                showNotif(message, 2000, async () => {
                     let cek = await cekStatus()
                     $queued = await cek.queued
                     navigate('/', {replace : true})
