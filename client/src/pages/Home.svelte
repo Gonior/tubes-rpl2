@@ -16,7 +16,7 @@
             let pks = await res.data.puskesmas    
             
             if(pks.length > 0) {
-                result = [...pks.filter(p => p.nama.toUpperCase() === key.toUpperCase())]
+                result = [...pks.filter(p => p.nama.toUpperCase().includes(key.toUpperCase()))]
             }
         } else result = [...await res.data.puskesmas ]
         return result
