@@ -8,7 +8,7 @@
     import {fly, slide} from "svelte/transition"
     import Snackbar from "../components/Snackbar.svelte";
     import {navigate} from 'svelte-routing'
-    import {baseURL, logged} from '../store/store.js'
+    import {baseURL, logged, queued} from '../store/store.js'
     
     export let signIn = true    
     let showSnackbar = false
@@ -32,6 +32,8 @@
                 success = true
                 isLoading = !isLoading
                 showNotif(message, 2000, () => {
+                    let cek = await cekStatus()
+                    $queued = await cek.queued
                     navigate('/', {replace : true})
                     $logged = true
                 })
