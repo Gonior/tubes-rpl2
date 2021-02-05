@@ -41,7 +41,7 @@
 <div class="bg-blue-801 h-32 rounded-3xl flex text-white py-2 px-5 items-center justify-between mb-4 shadow-md space-x-2">
     <div class="flex items-center space-x-3">
         <div>
-            <img class="object-cover h-16 rounded" src="{$baseURL+'/pk/photo/'+fotoName}" alt="{nama}">
+            <img class="object-cover h-16 w-20 rounded" src="{$baseURL+'/pk/photo/'+fotoName}" alt="{nama}">
         </div>
         <div>
             <h1 class="text-2xl font-semibold">{nama}</h1>
