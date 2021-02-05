@@ -8,7 +8,7 @@
     import {fly, slide} from "svelte/transition"
     import Snackbar from "../components/Snackbar.svelte";
     import {navigate} from 'svelte-routing'
-    import {baseURL, logged, queued} from '../store/store.js'
+    import {baseURL, logged, queued, cekStatus} from '../store/store.js'
     
     export let signIn = true    
     let showSnackbar = false
