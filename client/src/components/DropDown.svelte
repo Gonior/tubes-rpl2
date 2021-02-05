@@ -66,6 +66,7 @@
     const handleNavigate = async () => {
       try {
         if ($queued) {
+          data = await cekStatus()
           show = !show
           navigate(`/queue/${data.on}`, {replace : true})
         }
