@@ -57,7 +57,6 @@
         let ok = true
         if (showEditPhoto) {
             let file = pond.getFiles()
-            console.log(file)
             if (file.length > 0 ) {
                 fd = new FormData()
                 fd.append('foto', file[0].file, fotoName)
@@ -154,7 +153,7 @@
                                 </div>
                                 {:else}
                                 <div >
-                                    <FilePond bind:this={pond} {name} class="filepond" allowMultiple={false} onaddfile={handleAddFile}/>
+                                    <FilePond bind:this={pond} server="/" {name} class="filepond" allowMultiple={false} onaddfile={handleAddFile}/>
                                     <div class="flex flex-col items-center w-full">
                                         <button class=" text-gray-300 w-1/2 py-2 rounded hover:text-white" on:click={toggleEditPhoto}>
                                             Cancel
