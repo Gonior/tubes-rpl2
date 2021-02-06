@@ -1,6 +1,6 @@
 import {writable,readable} from 'svelte/store'
 import axios from 'axios'
-let url = 'http://localhost:3000' //"https://api-queue-apps.herokuapp.com"
+let url = "https://api-queue-apps.herokuapp.com"
 
 export const baseURL= readable(url)
 
