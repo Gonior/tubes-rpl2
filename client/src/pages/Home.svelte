@@ -11,14 +11,15 @@
         let url = $baseURL+'/pk'
         let res = await axios.get(url)
         let result = []; 
-
+        console.log(res.data)
         if (key != "") {
             let pks = await res.data.puskesmas    
-            
+
             if(pks.length > 0) {
                 result = [...pks.filter(p => p.nama.toUpperCase().includes(key.toUpperCase()))]
             }
         } else result = [...await res.data.puskesmas ]
+
         return result
     }
 
@@ -32,10 +33,11 @@
         {#each value as p}    
             <CardPuskesmas {...p} />
         {:else}
-            <h1 class="text-2xl text-white text-center">{keyword} tidak ditemukan</h1>
+            <h1 class="text-2xl text-white text-center">{keyword !== "" ? `${keyword} tidak ditemukan` : 'Belum ada puskesmas'}</h1>
         {/each}
     {:catch error}
     <p class="text-red-500 font-semibold">{error}</p>
+    <h1>Error</h1>
     {/await}
     
     

@@ -1,10 +1,12 @@
 const express = require('express')
 const upload = require('../controller/uploadController')
-const {authenticateAdminToken} = require('../controller/myController')
+const {authenticateAdminToken, getDate} = require('../controller/myController')
 const path = require('path')
 const router = express.Router()
 const Puskemas = require('../models/Puskesmas.models')
+const Queue = require('../models/Queue.models')
 const fs = require('fs')
+
 
 
 router.post('/add', authenticateAdminToken ,upload.single('foto'), async (req, res) => {
@@ -27,6 +29,18 @@ router.post('/edit/:id', authenticateAdminToken, upload.single('foto'), async (r
     let {nama, alamat, fotoName} = req.body;
     try {
         let pkUpdate = await Puskemas.updateOne({_id : req.params.id}, {nama, alamat, fotoName})
+        let before = await Puskemas.findOne({_id : req.params.id});
+        if (before.fotoName !== fotoName) {
+            let pathImg = path.resolve(__dirname+`/../uploads/${before.fotoName}`) 
+            try {
+                fs.unlink(pathImg, (err) => {
+                    if (err) {
+                        console.log(err)
+                        return
+                    }
+                })
+            } catch (err) {console.log(err)}
+        }
         if (pkUpdate.ok > 0) return res.status(200).json({message : 'Puskesmas berhasil dirubah'})
         else return res.status(400).json({message : 'something error'})
     } catch (error) {
@@ -36,14 +50,22 @@ router.post('/edit/:id', authenticateAdminToken, upload.single('foto'), async (r
     
 
 })
-router.get('/', (req, res) => {
-
+router.get('/', async (req, res) => {
+    
     try {
-        Puskemas.find().then(result => {
-            res.status(200).json({puskesmas : result})
-            
-        })
+        let puskesmas = await Puskemas.find({});
+        try {
+            let queues = await Queue.deleteMany({queued_on : {$ne : getDate()}})
+        } catch (err) {console.log(err)}
+        
+        
+        if (puskesmas) res.status(200).json({puskesmas : puskesmas})
+        
+        // Puskemas.find().then(result => {
+        //     res.status(200).json({puskesmas : result})
+        // })
     } catch (err) {
+        console.log(err)
         return res.status(400).json({message : err})
     }
     
