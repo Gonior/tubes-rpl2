@@ -118,6 +118,7 @@
                         let msg;
                         if (err.response) msg = err.response.message
                         else msg = err
+                        console.log(err)
                         isLoading = false
                         logs = [...logs, {err : true, message : `${timeString} - ${msg}`}]
                         logs = [...logs, {err : false, message : `${timeString} - set loading to false`}]            
@@ -174,6 +175,13 @@
             puskesmas = [... await getData()]
             logs = [...logs, {err : false, message : `${timeString} - reload detect`}]
         }
+    }
+    const handleBuffer = (img) => {
+        
+        return btoa(
+            img.data.data.reduce((data, byte) => data + String.fromCharCode(byte), '')
+        )
+        
     }
 </script>
 
@@ -232,7 +240,9 @@
                 <div class="bg-gray-200 rounded flex py-4 px-5 items-center justify-between mb-4 shadow-md space-x-2">
                     <div class="flex items-center space-x-3">
                         <div class="">
-                            <img class="object-cover h-16 rounded" src="{$baseURL+'/pk/photo/'+pk.fotoName}" alt="{pk.nama}">
+                            
+                            <img class="object-cover h-16 rounded" src="data:{pk.img.contentType};base64,{handleBuffer(pk.img)}" alt="{pk.nama}">
+                            
                         </div>
                         <div>
                             <code><p class="text-sm font-semibold text-gray-700">{pk.kode}</p></code>

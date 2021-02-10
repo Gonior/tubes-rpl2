@@ -11,16 +11,23 @@ const fs = require('fs')
 
 router.post('/add', authenticateAdminToken ,upload.single('foto'), async (req, res) => {
     let {nama, kode, alamat, fotoName} = req.body
+    
     try {
         let newPk = new Puskemas({
             'nama' : nama,
             'kode' : kode,
             'alamat' : alamat,
-            'fotoName' : fotoName
+            'fotoName' : fotoName,
+            'img' : {
+                data : fs.readFileSync(path.join(__dirname + '/../uploads/'+req.file.filename)),
+                contentType : 'image/png'
+            }
+
         })
         let savePk = await newPk.save(); //when fail its goes to catch
         if (savePk) return res.status(200).json({message : "Berhasil menambah puskesmas"})
       } catch (err) {
+          console.log(err)
         return res.status(400).json({message : err});
       }
 })
@@ -28,7 +35,11 @@ router.post('/add', authenticateAdminToken ,upload.single('foto'), async (req, r
 router.post('/edit/:id', authenticateAdminToken, upload.single('foto'), async (req, res) => {
     let {nama, alamat, fotoName} = req.body;
     try {
-        let pkUpdate = await Puskemas.updateOne({_id : req.params.id}, {nama, alamat, fotoName})
+        const opt = {
+            data : fs.readFileSync(path.join(__dirname + '/../uploads/'+req.file.filename)),
+            contentType : 'image/png'
+        }
+        let pkUpdate = await Puskemas.updateOne({_id : req.params.id}, {nama, alamat, fotoName, img : opt})
         let before = await Puskemas.findOne({_id : req.params.id});
         if (before.fotoName !== fotoName) {
             let pathImg = path.resolve(__dirname+`/../uploads/${before.fotoName}`) 

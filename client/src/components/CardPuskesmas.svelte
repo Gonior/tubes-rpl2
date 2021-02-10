@@ -7,8 +7,8 @@
     export let fotoName = ""
     export let alamat = ""
     export let _id = ""
-    export let kode = ""
-    export let __v = ""
+    export let img = ""
+    
     const getQueue = async () => {
         if (_id != "") {
             let url = $baseURL+"/q/"+_id
@@ -18,7 +18,13 @@
         
     }
     let antrean = getQueue()
-    
+    const handleBuffer = (img) => {
+        
+        return btoa(
+            img.data.data.reduce((data, byte) => data + String.fromCharCode(byte), '')
+        )
+        
+    }
 </script>
 {#if isLoading}
 <div class="a bg-blue-801 h-32 rounded-3xl flex text-white py-2 px-5 items-center justify-between mb-4 shadow-md space-x-2">
@@ -41,7 +47,7 @@
 <div class="bg-blue-801 h-32 rounded-3xl flex text-white py-2 px-5 items-center justify-between mb-4 shadow-md space-x-2">
     <div class="flex items-center space-x-3">
         <div>
-            <img class="object-cover h-16 w-20 rounded" src="{$baseURL+'/pk/photo/'+fotoName}" alt="{nama}">
+            <img class="object-cover h-16 rounded" src="data:{img.contentType};base64,{handleBuffer(img)}" alt="{fotoName}">
         </div>
         <div>
             <h1 class="text-2xl font-semibold">{nama}</h1>
