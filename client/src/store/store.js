@@ -1,6 +1,6 @@
 import {writable,readable} from 'svelte/store'
 import axios from 'axios'
-let url = "https://api-queue-apps.herokuapp.com" //"http://localhost:3000"
+let url = "http://localhost:3000" //"https://api-queue-apps.herokuapp.com" //
 
 export const baseURL= readable(url)
 
@@ -37,4 +37,12 @@ export const cekStatus = async () => {
             return null
         }
     } else return null
+}
+
+export const handleBuffer = (img) => {
+       
+    return btoa(
+        img.data.data.reduce((data, byte) => data + String.fromCharCode(byte), '')
+    )
+    
 }

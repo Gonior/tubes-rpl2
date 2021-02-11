@@ -11,7 +11,6 @@
         let url = $baseURL+'/pk'
         let res = await axios.get(url)
         let result = []; 
-        console.log(res.data)
         if (key != "") {
             let pks = await res.data.puskesmas    
 

@@ -34,7 +34,8 @@
         </div>
         <div>
             <div class="h-6 mb-1 w-36 rounded bg-gray-400 animate-pulse"></div>
-            <div class="h-4 mb-1 tw-48 rounded bg-gray-400 animate-pulse"></div>
+            <div class="h-4 mb-1 w-44 sm:w-48 lg:w-64 rounded bg-gray-400 animate-pulse"></div>
+            <div class="h-4 mb-1 w-30 sm:w-44 lg:w-48 rounded bg-gray-400 animate-pulse"></div>
             <div class="h-5 w-44 rounded bg-gray-400 animate-pulse"></div>
         </div>
     </div>
@@ -44,18 +45,19 @@
     </div>
 </div>
 {:else}
-<div class="bg-blue-801 h-32 rounded-3xl flex text-white py-2 px-5 items-center justify-between mb-4 shadow-md space-x-2">
+<div class="bg-blue-801 rounded-3xl flex text-white py-2 px-5 items-center justify-between mb-4 shadow-md space-x-2">
     <div class="flex items-center space-x-3">
-        <div>
-            <img class="object-cover h-16 rounded" src="data:{img.contentType};base64,{handleBuffer(img)}" alt="{fotoName}">
+        <div class="flex-none">
+            <img class="object-cover h-16 w-16 rounded" src="data:{img.contentType};base64,{handleBuffer(img)}" alt="{fotoName}">
         </div>
-        <div>
-            <h1 class="text-2xl font-semibold">{nama}</h1>
-            <p class="text-sm text-gray-300">{alamat}</p>
+        <div class="w-3/4 ">
+            <h1 class="text-lg md:text-2xl font-semibold">{nama}</h1>        
+            <p class="text-xs md:text-sm text-gray-400 ">{alamat}</p>
+            
             {#await antrean}
                 <p class="animate-pulse">...</p>
             {:then value}
-            <p class="text-md text-white">{value.length > 0 ? `${value.length} orang dalam antrean` : "tidak ada antrean"} </p>
+            <p class="text-xs md:text-sm text-white">{value.length > 0 ? `${value.length} orang dalam antrean` : "tidak ada antrean"} </p>
             {:catch error}
             <p class="text-red-500">{error}</p>
             {/await}

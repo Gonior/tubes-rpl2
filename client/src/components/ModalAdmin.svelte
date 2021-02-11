@@ -1,6 +1,6 @@
 <script>
     import {fly} from 'svelte/transition'
-    import {baseURL} from '../store/store.js'
+    import {baseURL, handleBuffer} from '../store/store.js'
     import Snackbar from './Snackbar.svelte'
     import {createEventDispatcher} from 'svelte'
     import FilePond, { registerPlugin } from 'svelte-filepond';
@@ -13,6 +13,7 @@
     export let nama;
     export let kode;
     export let fotoName;
+    export let img;
     export let alamat;
     let beforeUpdate = {nama,fotoName, alamat}
     $: afterUpdate = {nama,fotoName,alamat}
@@ -146,7 +147,8 @@
                             <div class="w-2/5 space-y-2">
                                 {#if !showEditPhoto}
                                 <div class="flex flex-col items-center" >
-                                    <img class="object-cover h-32 rounded" src="{$baseURL+'/pk/photo/'+fotoName}" alt="{nama}">
+                                    <img class="object-cover h-32 rounded" src="data:{img.contentType};base64,{handleBuffer(img)}" alt="{nama}">
+                                    <!-- <img class="object-cover h-32 rounded" src="{$baseURL+'/pk/photo/'+fotoName}" alt="{nama}"> -->
                                     <button class=" text-gray-300 w-1/2 py-2 rounded hover:text-white" on:click={toggleEditPhoto}>
                                         Ganti Foto
                                     </button>

@@ -9,7 +9,7 @@
     import ModalAdmin from '../components/ModalAdmin.svelte'
     import {navigate} from 'svelte-routing'
     import axios from 'axios'
-    import {baseURL, cekLogin} from '../store/store.js'
+    import {baseURL, cekLogin, handleBuffer} from '../store/store.js'
     registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
     
     function handleInit() {
@@ -41,7 +41,7 @@
             let log = await cekLogin(localStorage.getItem('token admin'))
             if (!log) navigate('/authadmin', {replace : true})
             else {
-                puskesmas = [... await getData()]
+                puskesmas = getData()
             }
         }
     
@@ -167,22 +167,16 @@
         editPk = {...pk}
         showModal = !showModal;
     }
-    const handleCloseModal = async (e) => {
+    const handleCloseModal = (e) => {
         showModal = e.detail.showModal
         if (e.detail.edited) {
             logs = [...logs, {err : false, message : `${timeString} - berhasil merubah data puskesmas`}]    
             
-            puskesmas = [... await getData()]
+            puskesmas = getData()
             logs = [...logs, {err : false, message : `${timeString} - reload detect`}]
         }
     }
-    const handleBuffer = (img) => {
-        
-        return btoa(
-            img.data.data.reduce((data, byte) => data + String.fromCharCode(byte), '')
-        )
-        
-    }
+    
 </script>
 
 <div class="flex w-full bg-gray-100 h-full absolute inset-0 z-10"> 
@@ -234,14 +228,14 @@
     <div class="w-1/2 p-4">
         <div class="h-24 ">
             {#await puskesmas}
-                <p>loading ...</p>
+                <h1 class=" text-2xl text-center text-gray-400">getting data..</h1>
             {:then value}
                 {#each value as pk}
                 <div class="bg-gray-200 rounded flex py-4 px-5 items-center justify-between mb-4 shadow-md space-x-2">
                     <div class="flex items-center space-x-3">
-                        <div class="">
+                        <div class="flex-none">
                             
-                            <img class="object-cover h-16 rounded" src="data:{pk.img.contentType};base64,{handleBuffer(pk.img)}" alt="{pk.nama}">
+                            <img class="object-cover h-16 w-16 rounded" src="data:{pk.img.contentType};base64,{handleBuffer(pk.img)}" alt="{pk.nama}">
                             
                         </div>
                         <div>

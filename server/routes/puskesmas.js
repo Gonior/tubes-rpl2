@@ -35,23 +35,17 @@ router.post('/add', authenticateAdminToken ,upload.single('foto'), async (req, r
 router.post('/edit/:id', authenticateAdminToken, upload.single('foto'), async (req, res) => {
     let {nama, alamat, fotoName} = req.body;
     try {
-        const opt = {
-            data : fs.readFileSync(path.join(__dirname + '/../uploads/'+req.file.filename)),
-            contentType : 'image/png'
-        }
-        let pkUpdate = await Puskemas.updateOne({_id : req.params.id}, {nama, alamat, fotoName, img : opt})
+        
+        let pkUpdate
         let before = await Puskemas.findOne({_id : req.params.id});
+
         if (before.fotoName !== fotoName) {
-            let pathImg = path.resolve(__dirname+`/../uploads/${before.fotoName}`) 
-            try {
-                fs.unlink(pathImg, (err) => {
-                    if (err) {
-                        console.log(err)
-                        return
-                    }
-                })
-            } catch (err) {console.log(err)}
-        }
+            const opt = {
+                data : fs.readFileSync(path.join(__dirname + '/../uploads/'+req.file.filename)),
+                contentType : 'image/png'
+            }
+            pkUpdate = await Puskemas.updateOne({_id : req.params.id}, {nama, alamat, fotoName, img : opt})
+        } else pkUpdate = await Puskemas.updateOne({_id : req.params.id}, {nama, alamat, fotoName})
         if (pkUpdate.ok > 0) return res.status(200).json({message : 'Puskesmas berhasil dirubah'})
         else return res.status(400).json({message : 'something error'})
     } catch (error) {
