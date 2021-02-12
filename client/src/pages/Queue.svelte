@@ -29,8 +29,9 @@
         let dataMaster = await getData()
         queue = [...dataMaster.queue]
         user = {...dataMaster.user}
-        registered = queue.filter(q => q.user_id === user.id).length > 0
-        if (registered) user.nomor = queue.find(q => q.user_id === user.id).nomor
+        
+        registered = queue.filter(q => q.user_id === user.id && q.cancel === false).length > 0
+        if (registered) user.nomor = queue.find(q => q.user_id === user.id && q.cancel === false).nomor
         
         isloading = false
       }
@@ -43,8 +44,9 @@
       data = await getData();
       queue = [...data.queue]
       user = {...data.user}
-      registered = queue.filter(q => q.user_id === user.id).length > 0
-      if (registered) user.nomor = queue.find(q => q.user_id === user.id).nomor
+      registered = queue.filter(q => q.user_id === user.id && q.cancel === false).length > 0
+      console.log(queue.find(q => q.user_id === user.id && q.cancel === false))
+      if (registered) user.nomor = queue.find(q => q.user_id === user.id && q.cancel === false).nomor
 
       isloading = false
     }
@@ -65,7 +67,7 @@
   const getSisa = (arr) => {
     if (arr.length === 0) return 0
     else {
-      let temp = arr.filter(q => q.done === false && q.current === false);
+      let temp = arr.filter(q => q.done === false && q.current === false && q.cancel === false);
       let sisa = temp.length
       return sisa
     }
@@ -74,8 +76,9 @@
     
     if (arr.length === 0) return 0
     else {
-      let temp = arr.find(q => q.done === false && q.current === true);
-      let nomor = temp.nomor
+      let temp = arr.find(q => q.done === false && q.current === true && q.cancel === false);
+      let nomor = 0
+      if (temp !== undefined) nomor = temp.nomor
       return nomor
     }
     
@@ -89,8 +92,8 @@
   class="flex flex-col h-full bg-blue-803 absolute inset-0 z-10 sm:px-32 md:px-48 lg:px-72"
 >
   <Modal {showModal} register={!registered} on:showModal={handleCloseModal} pkid={id} usid={user.id}/>
-  <div class="mt-10">
-    <div class=" h-12 flex text-white items-center px-4 justify-start mt-10">
+  <div class="mt-1 md:mt-3 lg:mt-5 ">
+    <div class=" h-12 flex text-white items-center px-4 mt-1 md:mt-5 lg:mt-7 ">
       <NavLink to="/">
         <BackButton promp="Kembali" />
       </NavLink>
@@ -99,20 +102,32 @@
   {#await data}
       <h1 class="text-white text-2xl text-center">loading ...</h1>
     {:then value}
-  <div class="mt-16 flex flex-col">
+  <div class="mt-2 flex flex-col">
+    <div class="w-full px-2 flex flex-col mb-2">
+      <h1 class="text-white text-2xl">{value.puskesmas.nama}</h1>  
+      <h1 class="text-gray-300 text-sm md:text-base">{value.puskesmas.alamat}</h1>  
+    </div>
+    
+    <div class="px-2 mb-2">
+      <div class="w-full bg-blue-801 rounded-xl flex justify-between items-center py-2 px-4 shadow-md">
+        <span class="text-gray-300">Total Antrean ({value.tgl})</span> 
+        <span class="font-bold text-white">{value.queue.length}</span>
+      </div>
+    </div>
+    
       <div class="flex space-x-2 px-2 mb-4">
         <CardQueue promp="Sisa antrean" num={getSisa(value.queue)} />
-        <CardQueue promp="No antrean Saat ini" num={getCurrentQueues(value.queue)} />
+        <CardQueue promp="No antrean Saat ini" num={`Q-${getCurrentQueues(value.queue)}`} />
       </div>
       <div
-        class="w-full bg-blue-802 rounded-xl flex flex-col justify-between items-center py-10 shadow-md"
+        class=" w-full bg-blue-802 rounded-xl flex flex-col justify-between items-center py-10 shadow-md"
       >
       <p class="text-xl text-gray-300 ">No antrean Anda</p>
       {#if isloading}
       <h1 class="text-white text-center">...</h1>
       {:else}
       {#if registered}
-        <h1 class="text-5xl font-semibold text-white">{user.nomor}</h1>
+        <h1 class="{getCurrentQueues(value.queue) === user.nomor ? 'animate-pulse' : ""} text-5xl font-semibold text-white">{`Q-${user.nomor}`}</h1>
         {:else}
         <h1 class="text-5xl font-semibold text-gray-300">-</h1>
         {/if}

@@ -4,7 +4,9 @@ const jwt = require("jsonwebtoken");
 const { secret } = require('../config/config')
 const User = require('../models/Users.models')
 const Admin = require('../models/Admin.models')
-const Puskesmas = require('../models/Puskesmas.models')
+const Puskesmas = require('../models/Puskesmas.models');
+const { authenticateAdminToken } = require("../controller/myController");
+const mongoose = require("mongoose");
 
 
 router.get('/verify', (req, res) => {
@@ -114,5 +116,20 @@ router.post("/pka", async (req, res) => {
 		);
 	}
 });
+
+router.get('/usr/:id', authenticateAdminToken, async (req, res) => {
+	if (mongoose.isValidObjectId(req.params.id)) {
+		try {
+			let user = await User.findOne({_id : req.params.id})	
+			if (user) return res.status(200).json({user : user})
+			else return res.status(404).json({message : 'User tidak ditemukan!'})
+		} catch (error) {
+			console.log(error)
+			return res.status(400).json({message : 'Something wrong'})
+		}
+	} else return res.status(404).json({message : 'User tidak ditemukan!'})
+	
+	
+})
 
 module.exports = router;

@@ -2,6 +2,7 @@
     import {fly} from 'svelte/transition'
     import {createEventDispatcher} from 'svelte'
     export let showModal = false;
+    export let data
     let confrim =false;
     let dispatch = createEventDispatcher()
     
@@ -35,7 +36,7 @@
                       </button>
                 </div>
                 <div>
-                    <h3  class="text-gray-400 text-xl">Sudah Selesai?</h3>
+                    <h3  class="text-gray-300 text-xl">Apakah antrean nomor <span class="font-bold text-white">Q-{data.nomor}</span> sudah selesai?</h3>
                 </div>
                     
                 <div class="w-full -mb-3">

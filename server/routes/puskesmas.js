@@ -1,13 +1,23 @@
 const express = require('express')
 const upload = require('../controller/uploadController')
-const {authenticateAdminToken, getDate} = require('../controller/myController')
+const {authenticateAdminToken, getDate, authenticateToken} = require('../controller/myController')
 const path = require('path')
 const router = express.Router()
 const Puskemas = require('../models/Puskesmas.models')
 const Queue = require('../models/Queue.models')
 const fs = require('fs')
 
+router.get('/:id', authenticateToken, async (req, res) => {
+    try {
+        let puskesmas = Puskemas.findOne({_id : req.params.id})
 
+        if (puskesmas) return res.status(200).json({puskesmas : puskesmas})
+        else return res.json(400).json({message : 'Puskesmas Tidak Ditemukan'})
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({message : error})
+    }
+})
 
 router.post('/add', authenticateAdminToken ,upload.single('foto'), async (req, res) => {
     let {nama, kode, alamat, fotoName} = req.body
@@ -78,32 +88,15 @@ router.get('/', async (req, res) => {
 
 router.delete("/:id",authenticateAdminToken , async (req ,res) => {
     
-    Puskemas.findOne({_id : req.params.id}).then((result) => {
-        let img = result.fotoName
-        let pathImg = path.resolve(__dirname+`/../uploads/${img}`) 
-        try {
-            fs.unlink(pathImg, (err) => {
-                if (err) {
-                    console.log(err)
-                    return
-                } else {
-                    Puskemas.remove({_id :req.params.id}).then(err => {
-                        if (err.deletedCount == 0) {
-                            console.log(err)
-                            return res.status(400).json({message : err})
-                        }
-                        else return res.status(200).json({message : req.params.id +" has been delete"})
-                    })
-                }
-            })    
-        } catch (error) {
-            console.log(error)
-            return res.status(400).json({message : error})
-        }
-    }).catch(err => {
+    try {
+        let deleted = await Puskemas.deleteOne({_id :req.params.id})
+        
+        if (deleted.deletedCount> 0) return res.status(200).json({message : `${req.params.id} has been deleted`})
+        else return res.status(400).json({message : `Terjadi Kesalahan`})
+    } catch (error) {
         console.log(error)
-        return res.status(400).json({message : err})
-    })
+        return res.status(400).json({message : error})
+    }
     
     
 })

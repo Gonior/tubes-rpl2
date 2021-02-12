@@ -57,7 +57,7 @@
             {#await antrean}
                 <p class="animate-pulse">...</p>
             {:then value}
-            <p class="text-xs md:text-sm text-white">{value.length > 0 ? `${value.length} orang dalam antrean` : "tidak ada antrean"} </p>
+            <p class="text-xs md:text-sm text-white">{value.length > 0 ? `${value.filter(v => v.cancel === false).length} orang dalam antrean` : "tidak ada antrean"} </p>
             {:catch error}
             <p class="text-red-500">{error}</p>
             {/await}

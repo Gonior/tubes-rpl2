@@ -34,7 +34,7 @@ router.post('/current', authenticateAdminToken, async (req, res) => {
         } else if (queues.length === 1) nextQueue = await Queue.updateOne({_id : queues[0]._id}, {current : true})
         else return res.status(200).json({message : `Antrean nomor ${nomor} sudah selesai!`})
 
-        if (nextQueue.ok > 0) return res.status(200).json({message : `Antrean nomor ${nomor} sudah selesai!`})
+        if (nextQueue.ok > 0) return res.status(200).json({message : `Antrean nomor Q-${nomor} sudah selesai!`})
         else return res.sendStatus(400)
     } else return res.sendStatus(400)
 
@@ -50,7 +50,7 @@ router.post('/add', authenticateToken, async (req, res) => {
             let checkYourQueue = await Queue.findOne({user_id : user_id, queued_on:getDate(), done : false, cancel : false})
             if (checkYourQueue)  return res.status(400).json({message : "Gagal mendaftar antrean, silakan batalkan antrean anda sebelumnya"})
 
-            let q = await Queue.find({puskesmas_id : puskesmas_id, queued_on:getDate(), cancel : false, done:false, current : false})
+            let q = await Queue.find({puskesmas_id : puskesmas_id, queued_on:getDate(), cancel : false, done : false})
             if ( await q.length === 0 ) current = true
             let qLength = await Queue.find({puskesmas_id : puskesmas_id, queued_on:getDate()})
             try {
@@ -80,7 +80,16 @@ router.post('/cancel', authenticateToken, async (req, res) => {
     if (alasan == "") return res.status(400).json({message : "Setidaknya beri alasan, jangan seperti doi yang pergi tanpa alasan"})
     else {
         try {
+            let cek = await Queue.findOne({puskesmas_id :puskesmas_id, user_id : user_id, queued_on:getDate(), cancel:false, done : false})
             let queue = await Queue.updateOne({puskesmas_id :puskesmas_id, user_id : user_id, queued_on:getDate(), cancel:false, done : false}, {cancel : true})
+            if (cek.current) {
+                let queues = await Queue.find({queued_on : getDate(), cancel : false, done : false, current : false})
+            
+                if (queues.length > 1) {
+                    let sortqueues = queues.sort((a,b) => a.nomor - b.nomor) 
+                    Queue.updateOne({_id : sortqueues[0]._id}, {current : true})
+                } else if (queues.length === 1) Queue.updateOne({_id : queues[0]._id}, {current : true})
+            }
             
             if (queue.ok > 0) res.status(200).json({message : "Antrean Berhasil dibatalkan!"})
             else res.status(400).json({message : "entah kenapa ga bisa dibatalkan gaes :)"})
@@ -99,8 +108,9 @@ router.get('/:pkid',  async (req, res) => {
             if (!puskesmas) return res.status(404).json({message : "Puskesmas Tidak Ditemukan"})
             else {
                 try {
-                    let queue = await Queue.find({puskesmas_id : req.params.pkid, queued_on:getDate(), cancel : false, done : false})
-                    res.status(200).json({queue : queue, user:req.body.user})
+                    
+                    let queue = await Queue.find({puskesmas_id : pkid, queued_on:getDate()})
+                    res.status(200).json({queue : queue, user:req.body.user, puskesmas : puskesmas, tgl : getDate()})
                 } catch (err) {
                     console.log(err)
                 }  
@@ -119,8 +129,8 @@ router.get('/pk/:pkid', authenticateToken, async (req, res) => {
             if (!puskesmas) return res.status(404).json({message : "Puskesmas Tidak Ditemukan"})
             else {
                 try {
-                    let queue = await Queue.find({puskesmas_id : req.params.pkid, queued_on:getDate(), cancel : false, done:false})
-                    res.status(200).json({queue : queue, user:req.body.user})
+                    let queue = await Queue.find({puskesmas_id : pkid, queued_on:getDate()})
+                    res.status(200).json({queue : queue, user:req.body.user, puskesmas : puskesmas, tgl : getDate()})
                 } catch (err) {
                     console.log(err)
                 }  
