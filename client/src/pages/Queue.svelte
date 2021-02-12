@@ -44,9 +44,8 @@
       data = await getData();
       queue = [...data.queue]
       user = {...data.user}
-      registered = queue.filter(q => q.user_id === user.id && q.cancel === false).length > 0
-      console.log(queue.find(q => q.user_id === user.id && q.cancel === false))
-      if (registered) user.nomor = queue.find(q => q.user_id === user.id && q.cancel === false).nomor
+      registered = queue.filter(q => q.user_id === user.id && q.cancel === false && q.done === false).length > 0
+        if (registered) user.nomor = queue.find(q => q.user_id === user.id && q.cancel === false && q.done === false).nomor
 
       isloading = false
     }
