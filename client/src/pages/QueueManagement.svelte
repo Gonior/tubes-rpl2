@@ -148,13 +148,17 @@
         </div>
         <div class="flex space-x-2 px-2 mb-4">
           <div class="w-1/2 bg-blue-801 rounded-xl flex flex-col items-start px-4 py-2 shadow-md">
+            <h1 class="text-gray-300">Antrean saat ini</h1>  
+            {#if getCurrentQueues(value.queue).user_id !== undefined }
             {#await getUser(getCurrentQueues(value.queue).user_id)}
               <p class="text-center text-gray-400 px-8">getting data..</p>
             {:then userCurrent} 
-            <h1 class="text-gray-300">Antrean saat ini</h1>  
             <h1 class="text-gray-50 font-semibold text-lg">{userCurrent.nama}</h1>
             <p class="text-gray-400">{userCurrent.nope}</p>
             {/await}
+            {:else}
+            <p class="text-center text-gray-400 px-8">Tidak Ada</p>
+            {/if}
             </div>
             <div class="w-1/2 bg-blue-801 rounded-xl flex flex-col items-center py-5 shadow-md" >
               <p class="text-xl text-gray-300">Sisa Antrean</p>
@@ -167,7 +171,7 @@
             <h1 class="text-5xl font-semibold text-white">{getCurrentQueues(value.queue).nomor === 0 ? '-' : `Q-${getCurrentQueues(value.queue).nomor}`}</h1>
             
         </div>
-        <button class="w-full mt-2 py-2 bg-gray-300 disabled:opacity-50  hover:bg-white rounded-2xl shadow" on:click={() => showModal = true}>
+        <button class="w-full mt-2 py-2 bg-gray-300 disabled:opacity-50  hover:bg-white rounded-2xl shadow" disabled={getCurrentQueues(value.queue).nomor === 0} on:click={() => showModal = true}>
           Done?
         </button>
         {:catch error}

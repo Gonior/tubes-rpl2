@@ -48,13 +48,12 @@ import { each } from 'svelte/internal';
     let result = getDatas()
     onMount(() => {
         result = getDatas()
-        console.log(result)
     })
     
 </script>
 {#if showModal}
     <div class="bg-gray-600 px-5 bg-opacity-90 min-h-screen w-full absolute flex justify-center items-center inset-0 z-20" on:click|self={handleClose}>
-        <div class="bg-blue-803 h-3/4 w-full sm:w-3/4 md:w-1/2 rounded shadow-lg p-5"  in:fly={{y :-100 ,duration : 200}} out:fly={{y : -100, duration : 200}}  >
+        <div class="bg-blue-803 h-3/4 w-full sm:w-3/4 md:w-1/2 rounded shadow-lg p-5 flex flex-col"  in:fly={{y :-100 ,duration : 200}} out:fly={{y : -100, duration : 200}}  >
             <div class="flex items-center justify-between">
                 <h1 class="text-2xl font-semibold tracking-wider text-white">Data Pegantre</h1>
                 <button on:click="{handleClose}" class="bg-transparent rounded hover:text-white text-gray-400 focus:ring-0 focus:outline-none">
