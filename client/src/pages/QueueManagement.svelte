@@ -128,7 +128,7 @@
       {/if}
       <div class='mt-5 px-2 flex justify-between'>
         <h1 class="text-white text-2xl">Queue Management</h1>
-        <button on:click={() => showListQueuedModal = true} class="text-white px-4 py-2 rounded outline-none bg-blue-500 hover:bg-blue-801">Lihat Data Antrean</button>
+        <button on:click={() => showListQueuedModal = true} class="text-white px-4 py-2 rounded outline-none bg-blue-500 hover:bg-blue-801">Lihat Data Pengantre</button>
       </div>
       <div class="mt-7 flex flex-col">
         {#await antrean}
