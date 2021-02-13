@@ -56,7 +56,7 @@ import { each } from 'svelte/internal';
     <div class="bg-gray-600 px-5 bg-opacity-90 min-h-screen w-full absolute flex justify-center items-center inset-0 z-20" on:click|self={handleClose}>
         <div class="bg-blue-803 h-3/4 w-full sm:w-3/4 md:w-1/2 rounded shadow-lg p-5"  in:fly={{y :-100 ,duration : 200}} out:fly={{y : -100, duration : 200}}  >
             <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-semibold tracking-wider text-white">Data Antrean</h1>
+                <h1 class="text-2xl font-semibold tracking-wider text-white">Data Pegantre</h1>
                 <button on:click="{handleClose}" class="bg-transparent rounded hover:text-white text-gray-400 focus:ring-0 focus:outline-none">
                     <svg class="h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 19L5 5M19 5L5 19"/>
